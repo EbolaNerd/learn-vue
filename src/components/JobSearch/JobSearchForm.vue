@@ -4,7 +4,7 @@
     <div class="flex h-full flex-1 flex-nowrap text-base font-light">
       <div class="relative flex h-full flex-1 items-center pr-3">
         <label class="absolute -top-10 left-0">Role</label>
-        <text-input placeholder="Software Engineer" />
+        <text-input v-model="role" placeholder="Software Engineer" />
       </div>
       <span
         class="flex h-full items-center border-l border-r border-brand-grey-3 bg-brand-grey-2 px-3"
@@ -12,7 +12,7 @@
       >
       <div class="relative flex h-full flex-1 items-center pl-3">
         <label class="absolute -top-10 left-0">Where?</label>
-        <text-input placeholder="Los Angeles" />
+        <text-input v-model="location" placeholder="Los Angeles" />
       </div>
     </div>
     <action-button text="Search" type="secondary" class="rounded-r-3xl" />
