@@ -9,7 +9,7 @@
       <font-awesome-icon :icon="carrotIcon" />
     </div>
     <div v-if="isOpen" class="mt-5 w-full">
-      <slot></slot>
+      <slot>Default child content</slot>
     </div>
   </div>
 </template>
