@@ -6,13 +6,11 @@
         <div class="flex items-center text-sm"></div>
         <action-button text="Clear filters" type="secondary" />
       </div>
-      <collapsible-accordion header="Job Types">
-        <p>Placeholder</p>
-      </collapsible-accordion>
 
-      <job-filters-sidebar-organizations />
+      <job-filters-sidebar-job-types />
 
       <collapsible-accordion header="No child content" />
+      <job-filters-sidebar-organizations />
     </section>
   </div>
 </template>
@@ -20,10 +18,16 @@
 <script>
 import ActionButton from '@/components/Shared/ActionButton.vue';
 import CollapsibleAccordion from '@/components/Shared/CollapsibleAccordion.vue';
+import JobFiltersSidebarJobTypes from '@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarJobTypes.vue';
 import JobFiltersSidebarOrganizations from '@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarOrganizations.vue';
 
 export default {
   name: 'JobFiltersSidebar',
-  components: { ActionButton, CollapsibleAccordion, JobFiltersSidebarOrganizations },
+  components: {
+    ActionButton,
+    CollapsibleAccordion,
+    JobFiltersSidebarOrganizations,
+    JobFiltersSidebarJobTypes,
+  },
 };
 </script>
