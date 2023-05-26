@@ -6,7 +6,7 @@
       @click="open"
     >
       <h3 class="text-base font-semibold">{{ header }}</h3>
-      <font-awesome-icon :icon="carrotIcon" />
+      <font-awesome-icon :icon="caretIcon" />
     </div>
     <div v-if="isOpen" class="mt-5 w-full">
       <slot>Default child content</slot>
@@ -14,29 +14,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'CollapsibleAccordion',
-  props: {
-    header: {
-      type: String,
-      required: true,
-    },
+<script setup>
+import { computed, ref } from 'vue';
+
+defineProps({
+  header: {
+    type: String,
+    required: true,
   },
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-  computed: {
-    carrotIcon() {
-      return this.isOpen ? ['fas', 'angle-up'] : ['fas', 'angle-down'];
-    },
-  },
-  methods: {
-    open() {
-      this.isOpen = !this.isOpen;
-    },
-  },
+});
+
+const isOpen = ref(false);
+
+const open = () => {
+  isOpen.value = !isOpen.value;
 };
+
+const caretIcon = computed(() => (isOpen.value ? ['fas', 'angle-up'] : ['fas', 'angle-down']));
 </script>
