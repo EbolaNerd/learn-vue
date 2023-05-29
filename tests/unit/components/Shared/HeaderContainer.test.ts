@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/vue';
-import HeaderContainer from '@/components/shared/HeaderContainer.vue';
+import HeaderContainer from '@/components/Shared/HeaderContainer.vue';
 
 describe('HeaderContainer', () => {
   it('allows parent components to provide title content', () => {

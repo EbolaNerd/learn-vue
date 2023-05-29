@@ -34,22 +34,11 @@
   </main>
 </template>
 
-<script>
+<script lang="ts" setup>
 import TheHeadline from '@/components/JobSearch/TheHeadline.vue';
 import JobSearchForm from '@/components/JobSearch/JobSearchForm.vue';
 import SpotLight from '@/components/JobSearch/SpotLight.vue';
+import { ref } from 'vue';
 
-export default {
-  name: 'TheHero',
-  components: {
-    TheHeadline,
-    JobSearchForm,
-    SpotLight,
-  },
-  data() {
-    return {
-      heroImage: '../../../static/carlos.jpg',
-    };
-  },
-};
+const heroImage = ref('../../../static/carlos.jpg');
 </script>

@@ -1,17 +1,11 @@
 import { render, screen } from '@testing-library/vue';
 import { RouterLinkStub } from '@vue/test-utils';
 import JobListing from '@/components/JobResults/JobListing.vue';
+import { createJob } from 'tests/utils/createJob';
+import type { Job } from '@/api/types';
 
 describe('JobListing', () => {
-  const createJob = (job = {}) => ({
-    title: 'Vue Developer',
-    organization: 'Air bnb',
-    locations: ['New York'],
-    minimumQualifications: ['Code'],
-    ...job,
-  });
-
-  const renderJobListing = (job) => {
+  const renderJobListing = (job: Job) => {
     render(JobListing, {
       global: {
         stubs: {

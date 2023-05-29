@@ -2,12 +2,6 @@
   <the-hero />
 </template>
 
-<script>
-import TheHero from '../components/JobSearch/TheHero.vue';
-export default {
-  name: 'HomePage',
-  components: {
-    TheHero,
-  },
-};
+<script lang="ts" setup>
+import TheHero from '@/components/JobSearch/TheHero.vue';
 </script>
