@@ -5,5 +5,5 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const imageLink = ref('../../static/randy.webp');
+const imageLink = ref('../../../static/randy.webp');
 </script>
