@@ -33,57 +33,46 @@ describe('state', () => {
       });
     });
   });
+});
 
-  describe('getters', () => {
-    beforeEach(() => {
-      setActivePinia(createPinia());
+describe('getters', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+  });
+
+  describe('UNIQUE_ORGANIZATIONS', () => {
+    it('finds unique organizations from list of jobs', () => {
+      const store = useJobsStore();
+      store.jobs = [
+        createJob({ organization: 'Google' }),
+        createJob({ organization: 'Amazon' }),
+        createJob({ organization: 'Google' }),
+      ];
+
+      const result = store.UNIQUE_ORGANIZATIONS;
+      expect(result).toEqual(new Set(['Google', 'Amazon']));
     });
+  });
 
-    describe('UNIQUE_ORGANIZATIONS', () => {
-      it('finds unique organizations from list of jobs', () => {
-        const store = useJobsStore();
-        store.jobs = [
-          createJob({ organization: 'Google' }),
-          createJob({ organization: 'Amazon' }),
-          createJob({ organization: 'Google' }),
-        ];
+  describe('unique job types', () => {
+    it('finds unique job types from list of jobs', () => {
+      const store = useJobsStore();
+      store.jobs = [
+        createJob({ jobType: 'Full-time' }),
+        createJob({ jobType: 'Part-time' }),
+        createJob({ jobType: 'Full-time' }),
+      ];
+      const result = store.UNIQUE_JOB_TYPES;
 
-        const result = store.UNIQUE_ORGANIZATIONS;
-        expect(result).toEqual(new Set(['Google', 'Amazon']));
-      });
+      expect(result).toEqual(new Set(['Full-time', 'Part-time']));
     });
+  });
 
-    describe('unique job types', () => {
-      it('finds unique job types from list of jobs', () => {
-        const store = useJobsStore();
-        store.jobs = [
-          createJob({ jobType: 'Full-time' }),
-          createJob({ jobType: 'Part-time' }),
-          createJob({ jobType: 'Full-time' }),
-        ];
-        const result = store.UNIQUE_JOB_TYPES;
-
-        expect(result).toEqual(new Set(['Full-time', 'Part-time']));
-      });
-    });
-
-    describe('INCLUDE_JOB_BY_ORGANIZATION', () => {
-      describe('when the user has not selected any organizations', () => {
-        it('includes job', () => {
-          const userStore = useUserStore();
-          userStore.selectedOrganizations = [];
-          const jobsStore = useJobsStore();
-          const job = createJob({ organization: 'Google' });
-
-          const result = jobsStore.INCLUDE_JOB_BY_ORGANIZATION(job);
-
-          expect(result).toBe(true);
-        });
-      });
-
-      it('identifies if job is associated with given organizations', () => {
+  describe('INCLUDE_JOB_BY_ORGANIZATION', () => {
+    describe('when the user has not selected any organizations', () => {
+      it('includes job', () => {
         const userStore = useUserStore();
-        userStore.selectedOrganizations = ['Google', 'Microsoft'];
+        userStore.selectedOrganizations = [];
         const jobsStore = useJobsStore();
         const job = createJob({ organization: 'Google' });
 
@@ -93,23 +82,23 @@ describe('state', () => {
       });
     });
 
-    describe('INCLUDE_JOB_BY_JOB_TYPE', () => {
-      describe('when the user has not selected any job types', () => {
-        it('includes job', () => {
-          const userStore = useUserStore();
-          userStore.selectedJobTypes = [];
-          const jobsStore = useJobsStore();
-          const job = createJob({ jobType: 'Full-time' });
+    it('identifies if job is associated with given organizations', () => {
+      const userStore = useUserStore();
+      userStore.selectedOrganizations = ['Google', 'Microsoft'];
+      const jobsStore = useJobsStore();
+      const job = createJob({ organization: 'Google' });
 
-          const result = jobsStore.INCLUDE_JOB_BY_JOB_TYPE(job);
+      const result = jobsStore.INCLUDE_JOB_BY_ORGANIZATION(job);
 
-          expect(result).toBe(true);
-        });
-      });
+      expect(result).toBe(true);
+    });
+  });
 
-      it('identifies if job is associated with given job types', () => {
+  describe('INCLUDE_JOB_BY_JOB_TYPE', () => {
+    describe('when the user has not selected any job types', () => {
+      it('includes job', () => {
         const userStore = useUserStore();
-        userStore.selectedJobTypes = ['Full-time', 'Part-time'];
+        userStore.selectedJobTypes = [];
         const jobsStore = useJobsStore();
         const job = createJob({ jobType: 'Full-time' });
 
@@ -119,27 +108,75 @@ describe('state', () => {
       });
     });
 
-    describe('INCLUDE_JOB_BY_DEGREE', () => {
-      describe('when the user has not selected any degrees', () => {
-        it('includes job', () => {
-          const userStore = useUserStore();
-          userStore.selectedDegrees = [];
-          const jobsStore = useJobsStore();
-          const job = createJob();
+    it('identifies if job is associated with given job types', () => {
+      const userStore = useUserStore();
+      userStore.selectedJobTypes = ['Full-time', 'Part-time'];
+      const jobsStore = useJobsStore();
+      const job = createJob({ jobType: 'Full-time' });
 
-          const result = jobsStore.INCLUDE_JOB_BY_DEGREE(job);
+      const result = jobsStore.INCLUDE_JOB_BY_JOB_TYPE(job);
 
-          expect(result).toBe(true);
-        });
-      });
+      expect(result).toBe(true);
+    });
+  });
 
-      it('identifies if job is associated with given degrees', () => {
+  describe('INCLUDE_JOB_BY_DEGREE', () => {
+    describe('when the user has not selected any degrees', () => {
+      it('includes job', () => {
         const userStore = useUserStore();
-        userStore.selectedDegrees = ['Master'];
+        userStore.selectedDegrees = [];
         const jobsStore = useJobsStore();
-        const job = createJob({ degree: 'Master' });
+        const job = createJob();
 
         const result = jobsStore.INCLUDE_JOB_BY_DEGREE(job);
+
+        expect(result).toBe(true);
+      });
+    });
+
+    it('identifies if job is associated with given degrees', () => {
+      const userStore = useUserStore();
+      userStore.selectedDegrees = ['Master'];
+      const jobsStore = useJobsStore();
+      const job = createJob({ degree: 'Master' });
+
+      const result = jobsStore.INCLUDE_JOB_BY_DEGREE(job);
+
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('INCLUDE_JOB_BY_SKILL', () => {
+    it("identifies if job matches user's skill", () => {
+      const userStore = useUserStore();
+      userStore.skillsSearchTerm = 'Vue';
+      const jobssStore = useJobsStore();
+      const job = createJob({ title: 'Vue Developer' });
+
+      const result = jobssStore.INCLUDE_JOB_BY_SKILL(job);
+
+      expect(result).toBe(true);
+    });
+
+    it('handles inconsistent character casing', () => {
+      const userStore = useUserStore();
+      userStore.skillsSearchTerm = 'VuE';
+      const jobssStore = useJobsStore();
+      const job = createJob({ title: 'Vue Developer' });
+
+      const result = jobssStore.INCLUDE_JOB_BY_SKILL(job);
+
+      expect(result).toBe(true);
+    });
+
+    describe('when the user has not entered any skill', () => {
+      it('includes job', () => {
+        const userStore = useUserStore();
+        userStore.skillsSearchTerm = '';
+        const jobssStore = useJobsStore();
+        const job = createJob({ title: 'Vue Developer' });
+
+        const result = jobssStore.INCLUDE_JOB_BY_SKILL(job);
 
         expect(result).toBe(true);
       });
